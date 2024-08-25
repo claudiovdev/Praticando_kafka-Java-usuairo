@@ -1,4 +1,4 @@
-package com.api.usuario.api.openapi.config;
+package com.api.usuario.core.config;
 
 import io.swagger.v3.oas.models.ExternalDocumentation;
 import io.swagger.v3.oas.models.OpenAPI;
@@ -15,8 +15,8 @@ public class SwaggerConfig {
     @Bean
     public OpenAPI springShopOpenAPI() {
         return new OpenAPI()
-                .info(new Info().title("Gerenciador de cobranças API")
-                        .description("Simples gerenciador de cobranças")
+                .info(new Info().title("Gerenciador de usuarios API")
+                        .description("Simples gerenciador de usuarios")
                         .license(new License().name("Apache 2.0").url("http://springdoc.org")))
                 .externalDocs(new ExternalDocumentation()
                         .description("SpringShop Wiki Documentation")

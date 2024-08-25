@@ -1,4 +1,8 @@
 spring:
+  kafka:
+    bootstrap-servers: ${KAFKA_BROKER:localhost:9092}
+    topic:
+      notificacao-usuario: notificacao-usuario
   datasource:
     url: jdbc:mysql://localhost:3306/api-usuario?createDatabaseIfNotExist=true
     username: root

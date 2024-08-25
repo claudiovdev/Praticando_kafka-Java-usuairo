@@ -4,10 +4,14 @@ import com.api.usuario.domain.enums.StatusUsuario;
 import com.api.usuario.domain.exception.EntidadeEmUsoException;
 import com.api.usuario.domain.exception.UsuarioNaoEncontradoException;
 import com.api.usuario.domain.entity.Usuario;
+import com.api.usuario.domain.producer.UsuarioProducer;
 import com.api.usuario.domain.repository.TelefoneRepository;
 import com.api.usuario.domain.repository.UsuarioRepository;
+import com.api.usuario.domain.utils.JsonUitls;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
@@ -21,6 +25,9 @@ public class UsuarioService {
 
     private final UsuarioRepository usuarioRepository;
     private final TelefoneRepository telefoneRepository;
+    private final UsuarioProducer usuarioProducer;
+    private final JsonUitls jsonUitls;
+
 
     private static final String MSG_USUARIO_EM_USO = "Usuario com id: %s não pode ser removido pois está em uso";
 
@@ -35,6 +42,8 @@ public class UsuarioService {
             telefone.setUsuario(usuarioSalvo);
             telefoneRepository.save(telefone);;
         });
+        var json = jsonUitls.toJson(usuarioSalvo.getEndereco());
+        usuarioProducer.enviarMensagem(json, "notificacao-usuario");
         return usuarioSalvo;
     }
 
