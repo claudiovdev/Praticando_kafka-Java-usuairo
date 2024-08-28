@@ -14,9 +14,9 @@ public class Endereco {
     @Column(name = "endereco_bairro")
     private String bairro;
     @Column(name = "endereco_rua")
-    private String logradouro;
+    private String rua;
     @Column(name = "endereco_estado")
-    private String localidade;
+    private String estado;
     @Column(name = "endereco_sigla")
     private String uf;
     @Column(name = "endereco_numero")

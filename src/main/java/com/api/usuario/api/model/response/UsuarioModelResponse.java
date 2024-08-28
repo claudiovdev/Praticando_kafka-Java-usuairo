@@ -21,6 +21,8 @@ public class UsuarioModelResponse {
     private Long id;
     @Schema(example = "Vinicius")
     private String nome;
+    @Schema(example = "vinicius@gmail.com")
+    private String email;
     @JsonProperty("telefones")
     private List<TelefoneModelResponse> telefoneModelResponse = new ArrayList<>();
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy'T'HH:mm:ss'Z'")

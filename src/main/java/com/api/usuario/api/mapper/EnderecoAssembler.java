@@ -8,9 +8,10 @@ public class EnderecoAssembler {
         var enderecoResponse = new EnderecoModelResponse();
         enderecoResponse.setCep(endereco.getCep());
         enderecoResponse.setBairro(endereco.getBairro());
-        enderecoResponse.setRua(endereco.getLogradouro());
-        enderecoResponse.setEstado(endereco.getLocalidade());
+        enderecoResponse.setRua(endereco.getRua());
+        enderecoResponse.setEstado(endereco.getEstado());
         enderecoResponse.setNumero(endereco.getNumero());
+        enderecoResponse.setUf(endereco.getUf());
         return enderecoResponse;
     }
 }

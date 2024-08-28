@@ -18,9 +18,6 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class KafkaConfig {
 
-    public static final int REPLICA_COUNT = 1;
-    public static final int PARTITION_COUNT = 1;
-
     @Value("${spring.kafka.bootstrap-servers}")
     private String bootstrapServers;
 

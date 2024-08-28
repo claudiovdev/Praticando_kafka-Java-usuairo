@@ -1,13 +1,16 @@
 package com.api.usuario.domain.service;
 
+import com.api.usuario.domain.entity.Evento;
 import com.api.usuario.domain.enums.StatusUsuario;
 import com.api.usuario.domain.exception.EntidadeEmUsoException;
 import com.api.usuario.domain.exception.UsuarioNaoEncontradoException;
 import com.api.usuario.domain.entity.Usuario;
+import com.api.usuario.domain.model.DadosEvento;
 import com.api.usuario.domain.producer.UsuarioProducer;
 import com.api.usuario.domain.repository.TelefoneRepository;
 import com.api.usuario.domain.repository.UsuarioRepository;
 import com.api.usuario.domain.utils.JsonUitls;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
@@ -18,6 +21,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.UUID;
 
 @Service
 @AllArgsConstructor
@@ -27,7 +31,7 @@ public class UsuarioService {
     private final TelefoneRepository telefoneRepository;
     private final UsuarioProducer usuarioProducer;
     private final JsonUitls jsonUitls;
-
+    private final ObjectMapper objectMapper;
 
     private static final String MSG_USUARIO_EM_USO = "Usuario com id: %s não pode ser removido pois está em uso";
 
@@ -42,7 +46,8 @@ public class UsuarioService {
             telefone.setUsuario(usuarioSalvo);
             telefoneRepository.save(telefone);;
         });
-        var json = jsonUitls.toJson(usuarioSalvo.getEndereco());
+        var evento = extratirDadosEvento(usuarioSalvo);
+        var json = jsonUitls.toJson(evento);
         usuarioProducer.enviarMensagem(json, "notificacao-usuario");
         return usuarioSalvo;
     }
@@ -81,5 +86,17 @@ public class UsuarioService {
 
     public Usuario buscarUsuarioExistente(Long id){
         return usuarioRepository.findById(id).orElseThrow(()-> new UsuarioNaoEncontradoException(id));
+    }
+
+    private Evento extratirDadosEvento(Usuario usuario){
+        var dadosEvento = DadosEvento.builder()
+                .id(usuario.getUsuarioId().toString())
+                .nome(usuario.getNome())
+                .email(usuario.getEmail())
+                .build();
+        return Evento.builder()
+                .idTransacao(UUID.randomUUID().toString())
+                .dados(dadosEvento)
+                .build();
     }
 }

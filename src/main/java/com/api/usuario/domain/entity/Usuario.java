@@ -22,6 +22,8 @@ public class Usuario {
     private String nome;
     @OneToMany(mappedBy = "usuario")
     private List<Telefone> telefones = new ArrayList<>();
+    @Column(nullable = false)
+    private String email;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy'T'HH:mm:ss'Z'")
     private LocalDateTime dataCriacao;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy'T'HH:mm:ss'Z'")

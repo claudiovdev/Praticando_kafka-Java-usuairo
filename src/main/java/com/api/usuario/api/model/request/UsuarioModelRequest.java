@@ -19,8 +19,23 @@ public class UsuarioModelRequest {
     @Schema(example = "Vinicius", required = true)
     private String nome;
     @NotBlank
+    @Schema(example = "vinicius@gmail.com", required = true)
+    private String email;
+    @NotBlank
     @Schema(example = "23080000", required = true)
     private String cep;
+    @NotBlank
+    @Schema(example = "Campo Grande", required = true)
+    private String bairro;
+    @NotBlank
+    @Schema(example = "Victor Alves", required = true)
+    private String rua;
+    @NotBlank
+    @Schema(example = "Rio de Janeiro", required = true)
+    private String estado;
+    @NotBlank
+    @Schema(example = "RJ", required = true)
+    private String uf;
     @NotBlank
     @Schema(example = "2319", required = true)
     private String numero;

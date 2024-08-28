@@ -14,5 +14,6 @@ public class EnderecoModelResponse {
     private String bairro;
     private String rua;
     private String estado;
+    private String uf;
     private String numero;
 }

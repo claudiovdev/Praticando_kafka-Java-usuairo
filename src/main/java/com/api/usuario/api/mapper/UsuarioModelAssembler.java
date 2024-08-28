@@ -29,10 +29,12 @@ public class UsuarioModelAssembler {
         usuarioModelResponse.setId(usuario.getUsuarioId());
         usuarioModelResponse.setTelefoneModelResponse(telefonesModelResponse);
         usuarioModelResponse.setNome(usuario.getNome());
+        usuarioModelResponse.setEmail(usuario.getEmail());
         usuarioModelResponse.setDataCriacao(usuario.getDataCriacao());
         usuarioModelResponse.setDataAtualizacao(usuario.getDataAtualizacao());
         usuarioModelResponse.setEnderecoModelResponse(endereco);
         usuarioModelResponse.setStatus(usuario.getStatusUsuario().toString().toLowerCase());
+
         return usuarioModelResponse;
     }
 
@@ -44,7 +46,7 @@ public class UsuarioModelAssembler {
             usuarioResumido.setNome(usuario.getNome());
             usuarioResumido.setTelefonePrincipal(usuario.retornaTelefonePrincipal());
             usuarioResumido.setStatus(usuario.getStatusUsuario().toString().toLowerCase());
-            usuarioResumido.setEndereco(String.format("Bairro: %s, Rua: %s, numero:%s",usuario.getEndereco().getBairro(), usuario.getEndereco().getLogradouro(),usuario.getEndereco().getNumero()));
+            usuarioResumido.setEndereco(String.format("Bairro: %s, Rua: %s, numero:%s",usuario.getEndereco().getBairro(), usuario.getEndereco().getRua(),usuario.getEndereco().getNumero()));
 
             listaDeUsuariosResumidos.add(usuarioResumido);
         });
@@ -61,12 +63,16 @@ public class UsuarioModelAssembler {
         });
 
         endereco.setCep(usuarioModelRequest.getCep());
+        endereco.setBairro(usuarioModelRequest.getBairro());
+        endereco.setRua(usuarioModelRequest.getRua());
+        endereco.setRua(usuarioModelRequest.getRua());
+        endereco.setUf(usuarioModelRequest.getUf());
         endereco.setNumero(usuarioModelRequest.getNumero());
 
         usuario.setNome(usuarioModelRequest.getNome());
         usuario.setTelefones(telefones);
         usuario.setEndereco(endereco);
-
+        usuario.setEmail(usuarioModelRequest.getEmail());
         return usuario;
     }
 
@@ -80,8 +86,8 @@ public class UsuarioModelAssembler {
         telefone.setNumero(usuarioUpdateModelRequest.getTelefoneUpdateModelRequest().getNumero());
         telefone.setTipoTelefone(tipoTelefone);
         endereco.setCep(usuarioUpdateModelRequest.getEnderecoUpdateModelRequest().getCep());
-        endereco.setLocalidade(usuarioUpdateModelRequest.getEnderecoUpdateModelRequest().getEstado());
-        endereco.setLogradouro(usuarioUpdateModelRequest.getEnderecoUpdateModelRequest().getRua());
+        endereco.setEstado(usuarioUpdateModelRequest.getEnderecoUpdateModelRequest().getEstado());
+        endereco.setRua(usuarioUpdateModelRequest.getEnderecoUpdateModelRequest().getRua());
         endereco.setBairro(usuarioUpdateModelRequest.getEnderecoUpdateModelRequest().getBairro());
         endereco.setNumero(usuarioUpdateModelRequest.getEnderecoUpdateModelRequest().getNumero());
         usuario.setEndereco(endereco);
