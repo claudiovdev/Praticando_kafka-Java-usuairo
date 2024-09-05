@@ -1,11 +1,12 @@
 package com.api.usuario.domain.service;
 
-import com.api.usuario.domain.entity.Evento;
+import com.api.usuario.domain.model.Evento;
 import com.api.usuario.domain.enums.StatusUsuario;
 import com.api.usuario.domain.exception.EntidadeEmUsoException;
 import com.api.usuario.domain.exception.UsuarioNaoEncontradoException;
 import com.api.usuario.domain.entity.Usuario;
 import com.api.usuario.domain.model.DadosEvento;
+import com.api.usuario.domain.model.Historico;
 import com.api.usuario.domain.producer.UsuarioProducer;
 import com.api.usuario.domain.repository.TelefoneRepository;
 import com.api.usuario.domain.repository.UsuarioRepository;
@@ -13,13 +14,12 @@ import com.api.usuario.domain.utils.JsonUitls;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
-import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 
@@ -47,8 +47,8 @@ public class UsuarioService {
             telefoneRepository.save(telefone);;
         });
         var evento = extratirDadosEvento(usuarioSalvo);
-        var json = jsonUitls.toJson(evento);
-        usuarioProducer.enviarMensagem(json, "notificacao-usuario");
+
+        usuarioProducer.enviarMensagem("notificacao-usuario", evento);
         return usuarioSalvo;
     }
 
@@ -94,9 +94,16 @@ public class UsuarioService {
                 .nome(usuario.getNome())
                 .email(usuario.getEmail())
                 .build();
+        var historico = Historico.builder()
+                .projeto("API-USUARIO")
+                .status("SUCESSO")
+                .message("Usuario cadastrado com sucesso")
+                .dataDeCriacao(LocalDateTime.now())
+                .build();
         return Evento.builder()
                 .idTransacao(UUID.randomUUID().toString())
                 .dados(dadosEvento)
+                .historicos(Arrays.asList(historico))
                 .build();
     }
 }

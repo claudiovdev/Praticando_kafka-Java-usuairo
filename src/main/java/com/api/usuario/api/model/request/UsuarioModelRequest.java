@@ -18,7 +18,7 @@ public class UsuarioModelRequest {
     @NotBlank
     @Schema(example = "Vinicius", required = true)
     private String nome;
-    @NotBlank
+
     @Schema(example = "vinicius@gmail.com", required = true)
     private String email;
     @NotBlank
